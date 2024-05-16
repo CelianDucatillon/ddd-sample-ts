@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "Alexandre Gressier <alexandre@gressier.dev>",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
 }
