@@ -2,7 +2,6 @@ import { Money } from "../valueobjects/Money"
 import { OrderId } from "../valueobjects/OrderId"
 import { OrderItemId } from "../valueobjects/OrderItemId"
 import { Product } from "./Product"
-import { Order } from "./Order"
 
 export class OrderItem {
   private readonly orderId: OrderId

@@ -8,6 +8,11 @@ import { Money } from "../valueobjects/Money"
 import { RestaurantId } from "../valueobjects/RestaurantId"
 import { CustomerId } from "../valueobjects/CustomerId"
 import { IllegalOrderStateError } from "../errors/IllegalOrderStateError"
+import { EventBus } from "../events/EventBus"
+import { OrderInitializedEvent } from "../events/OrderInitializedEvent"
+import { OrderApprovedEvent } from "../events/OrderApprovedEvent"
+import { OrderPaidEvent } from "../events/OrderPaidEvent"
+import { OrderCancelledEvent } from "../events/OrderCancelledEvent"
 
 export class Order {
   private readonly customerId: CustomerId
@@ -16,7 +21,8 @@ export class Order {
   private price: Money
   private readonly items: OrderItem[]
   private status: OrderStatus
-  private readonly id: OrderId
+  private readonly _id: OrderId
+  private eventBus?: EventBus
 
   constructor(
     customer: Customer,
@@ -34,7 +40,15 @@ export class Order {
       new Money(0, this.items[0].subtotal.currency),
     )
     this.status = OrderStatus.UNINITIALIZED
-    this.id = id || new OrderId()
+    this._id = id || new OrderId()
+  }
+
+  get id(): OrderId {
+    return this._id
+  }
+
+  setEventBus(eventBus: EventBus) {
+    this.eventBus = eventBus
   }
 
   initialize() {
@@ -42,7 +56,9 @@ export class Order {
       throw new IllegalOrderStateError("Order is already initialized")
     }
     this.status = OrderStatus.PENDING
-    console.log(`Order '${this.id}' initialized`)
+    if (this.eventBus) {
+      this.eventBus.publish("OrderEvents", new OrderInitializedEvent(this._id))
+    }
   }
 
   approve() {
@@ -50,7 +66,9 @@ export class Order {
       throw new IllegalOrderStateError("Order is not pending")
     }
     this.status = OrderStatus.APPROVED
-    console.log(`Order '${this.id}' approved`)
+    if (this.eventBus) {
+      this.eventBus.publish("OrderEvents", new OrderApprovedEvent(this._id))
+    }
   }
 
   pay() {
@@ -58,14 +76,21 @@ export class Order {
       throw new IllegalOrderStateError("Order is not approved")
     }
     this.status = OrderStatus.PAID
-    console.log(`Order '${this.id}' paid`)
+    if (this.eventBus) {
+      this.eventBus.publish("OrderEvents", new OrderPaidEvent(this._id))
+    }
   }
 
   cancel() {
     if (this.status === OrderStatus.UNINITIALIZED) {
       throw new IllegalOrderStateError("Order is not initialized")
     }
+    if (this.status === OrderStatus.PAID) {
+      throw new IllegalOrderStateError("Order is already paid")
+    }
     this.status = OrderStatus.CANCELLED
-    console.log(`Order '${this.id}' cancelled`)
+    if (this.eventBus) {
+      this.eventBus.publish("OrderEvents", new OrderCancelledEvent(this._id))
+    }
   }
 }
