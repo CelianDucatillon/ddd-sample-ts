@@ -53,4 +53,3 @@ console.log("=== CUSTOMER ===")
 console.log(JSON.stringify(john, null, 2))
 console.log("=== ORDER ===")
 console.log(JSON.stringify(johnsOrder, null, 2))
-
