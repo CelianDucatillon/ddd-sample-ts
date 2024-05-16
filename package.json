@@ -1,13 +1,9 @@
 {
   "name": "ddd",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node src/index.ts"
   },
-  "keywords": [],
-  "author": "Alexandre Gressier <alexandre@gressier.dev>",
   "license": "UNLICENSED",
   "devDependencies": {
     "ts-node": "^10.9.2",
