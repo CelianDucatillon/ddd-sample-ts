@@ -1,11 +1,9 @@
 export class Money {
-  private amount: number
-  private currency: "EUR" | "USD"
 
-  constructor(amount: number, currency: "EUR" | "USD") {
-    this.amount = amount
-    this.currency = currency
-  }
+  constructor(
+    private amount: number,
+    private currency: "EUR" | "USD",
+  ) {}
 
   add(other: Money): Money {
     if (this.currency !== other.currency) {
