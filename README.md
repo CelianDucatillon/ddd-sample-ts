@@ -1,0 +1,1 @@
+# DDD sample with TypeScript
