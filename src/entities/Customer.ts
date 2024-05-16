@@ -4,7 +4,7 @@ import { Order } from "./Order"
 import { StreetAddress } from "../valueobjects/StreetAddress"
 import { OrderItem } from "./OrderItem"
 import { OrderId } from "../valueobjects/OrderId"
-import { ProductNotFoundInRestaurantError } from "../errors/RestaurantNotFound"
+import { ProductNotFoundInRestaurantError } from "../errors/ProductNotFoundInRestaurantError"
 
 export class Customer {
   private readonly _id: CustomerId

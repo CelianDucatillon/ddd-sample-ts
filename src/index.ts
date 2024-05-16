@@ -32,6 +32,11 @@ const johnsOrder = john.order(
   ],
 )
 
+johnsOrder.initialize()
+// johnsOrder.cancel()
+johnsOrder.approve()
+johnsOrder.pay()
+
 console.log("=== RESTAURANT ===")
 console.log(JSON.stringify(pizzaRestaurant, null, 2))
 console.log("=== CUSTOMER ===")
