@@ -1,16 +1,40 @@
-import { v4 as uuid } from "uuid"
-import { UUID } from "./types"
+import { Money } from "./valueobjects/Money"
+import { Restaurant } from "./entities/Restaurant"
+import { Product } from "./entities/Product"
+import { Customer } from "./entities/Customer"
+import { StreetAddress } from "./valueobjects/StreetAddress"
 
-class MyClass {
-  id: UUID
+const pizzaRestaurant = new Restaurant(
+  [
+    new Product(
+      "Pizza Margherita",
+      new Money(5.0, "EUR"),
+    ),
+    new Product(
+      "Pizza Capricciosa",
+      new Money(6.0, "EUR"),
+    ),
+    new Product(
+      "Pizza Quattro Stagioni",
+      new Money(7.0, "EUR"),
+    ),
+  ]
+)
 
-  constructor() {
-    this.id = uuid()
-  }
-}
+const john = new Customer("John", "Doe")
 
-function hello(): UUID {
-  return uuid()
-}
+const johnsOrder = john.order(
+  pizzaRestaurant,
+  new StreetAddress("Via Roma 1", "Roma", "00100"),
+  [
+      ["Pizza Capricciosa", 2],
+      ["Pizza Margherita", 1],
+  ],
+)
 
-console.log(hello())
+console.log("=== RESTAURANT ===")
+console.log(JSON.stringify(pizzaRestaurant, null, 2))
+console.log("=== CUSTOMER ===")
+console.log(JSON.stringify(john, null, 2))
+console.log("=== ORDER ===")
+console.log(JSON.stringify(johnsOrder, null, 2))

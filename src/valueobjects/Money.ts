@@ -1,23 +1,31 @@
 export class Money {
 
   constructor(
-    private amount: number,
-    private currency: "EUR" | "USD",
+    private _amount: number,
+    private _currency: "EUR" | "USD",
   ) {}
 
+  get amount(): number {
+    return this._amount
+  }
+
+  get currency(): "EUR" | "USD" {
+    return this._currency
+  }
+
   add(other: Money): Money {
-    if (this.currency !== other.currency) {
+    if (this._currency !== other._currency) {
       throw new Error("Cannot add different currencies")
     }
-    return new Money(this.amount + other.amount, this.currency)
+    return new Money(this._amount + other._amount, this._currency)
   }
 
   multiply(factor: number): Money {
-    return new Money(this.amount * factor, this.currency)
+    return new Money(this._amount * factor, this._currency)
   }
 
   toString(): string {
-    return Money.formatCurrency(this.amount, this.currency)
+    return Money.formatCurrency(this._amount, this._currency)
   }
 
   private static formatCurrency(amount: number, currency: string): string {
