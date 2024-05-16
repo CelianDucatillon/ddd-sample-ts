@@ -3,14 +3,6 @@ import { Restaurant } from "./entities/Restaurant"
 import { Product } from "./entities/Product"
 import { Customer } from "./entities/Customer"
 import { StreetAddress } from "./valueobjects/StreetAddress"
-import { EventBus } from "./events/EventBus"
-import { OrderEvent } from "./events/OrderEvent"
-
-const eventBus = new EventBus()
-
-eventBus.subscribe("OrderEvents", (data: OrderEvent) => {
-  console.log(`Received order event: ${JSON.stringify(data)}`)
-})
 
 const pizzaRestaurant = new Restaurant(
   [
@@ -40,8 +32,6 @@ const johnsOrder = john.order(
   ],
 )
 
-console.log("=== EVENTS ===")
-johnsOrder.setEventBus(eventBus)
 johnsOrder.initialize()
 //johnsOrder.cancel()
 johnsOrder.approve()
